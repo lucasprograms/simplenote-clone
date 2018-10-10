@@ -1,0 +1,29 @@
+<% flash.each do |key, value| %>
+  <ul class="col-12 alert alert-<%= key %>">
+  <% flash[key].each do |error_msg| %>
+    <li ><%= error_msg %></li>
+  <% end %>
+  </ul>
+<% end %>
+<form class="auth-form measure-wide avenir" method="post" action="/<%= action %>">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+  <div class="form-section fl w-100">
+    <label for="username-input">Username</label>
+      <input type="text" class="fl w-100 b--solid br2 b--silver bw1" id="username-input"
+            placeholder="<%= Faker::LordOfTheRings.character.split(' ').map(&:capitalize).join('') %>"
+            value="<%= @user.username %>" name="user[username]"
+      />
+  </div>
+  <div class="form-section fl w-100">
+    <label for="password-input">Password</label>
+    <input type="password" class="fl w-100 b--solid br2 b--silver bw1" is="password-input"
+          value="<%= @user.password %>" name="user[password]"
+    />
+  </div>
+  <div class="form-section">
+    <button class="bg-pink b--solid br2 b--silver bw1 dim"><%= action === 'session' ? 'Log In' : 'Sign Up' %></button>
+    <a class="b--solid b--silver br2 bw1 dim" href="<%= action === 'session' ? new_user_url : new_session_url %>">
+      <%= action === 'session' ? 'Sign up' : 'Log in' %> Instead
+    </a>
+  </div>
+</form>
